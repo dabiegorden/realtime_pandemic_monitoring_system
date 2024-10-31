@@ -115,12 +115,12 @@ const Navbar = () => {
                   );
                 })}
               </div>
-              <Link
+              {/* <Link
                 href={"/"}
                 className="bg bg-orange-600 py-2 px-4 rounded-md text-white text-[1.1rem] cursor-pointer hover:bg-gradient-to-br hover:from-indigo-500 hover:to-orange-500 mt-8 flex items-center justify-center"
               >
                 Login
-              </Link>
+              </Link> */}
             </SheetContent>
           </Sheet>
         </div>

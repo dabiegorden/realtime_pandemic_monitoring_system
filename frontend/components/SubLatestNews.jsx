@@ -33,6 +33,13 @@ export default async function Home() {
           <main key={item.title} className="news-card">
             <Card key={item.title} className="bg-white">
               <CardHeader key={item.title}>
+                <Image
+                  src={item?.images?.url}
+                  width={""}
+                  height={""}
+                  alt=""
+                  className=""
+                />
                 <CardTitle key={item.title}>
                   <h1
                     key={item.title}

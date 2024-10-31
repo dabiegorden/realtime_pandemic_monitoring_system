@@ -14,7 +14,7 @@ export async function fetchStats() {
     const response = await fetch(url, options);
     if (!response.ok) throw new Error("Failed to fetch covid stats");
     const data = await response.json();
-    return data.response.slice(0, 4); // Adjust this to access the correct field
+    return data.response.slice(0, 4);
   } catch (error) {
     console.error("Error fetching covid stats: ", error);
     throw error;

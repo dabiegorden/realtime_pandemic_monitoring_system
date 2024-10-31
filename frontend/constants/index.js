@@ -4,7 +4,6 @@
 export const Logo = [
   {
     name: "PMS",
-    // imgUrl: image,
     route: "/",
   },
 ];
@@ -18,6 +17,10 @@ export const navbarLinks = [
   {
     name: "About",
     route: "/about",
+  },
+  {
+    name: "News",
+    route: "/news",
   },
   {
     name: "Dashboard",
