@@ -6,10 +6,8 @@ import Benefit from "@/components/benefit";
 import DividerPage from "@/components/divider";
 import System from "@/components/how_system_work";
 import { motion } from "framer-motion";
-// import Image from "next/image";
 import { GoProject } from "react-icons/go";
 import { SiTransmission } from "react-icons/si";
-// import how_it_work_image from "@/public/assets/about.jpg";
 
 const AboutPage = () => {
   const fadeUp = {
@@ -25,26 +23,26 @@ const AboutPage = () => {
     <div className="about-page">
       {/* Hero Section */}
       <motion.div
-        className="hero-section"
+        className="hero-section text-center px-4 md:px-8 py-16 bg-gray-800"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
       >
-        <div className="flex justify-center items-center flex-col gap-8">
-          <h1 className="text-4xl font-bold text-white shadow-2xl">
+        <div className="flex flex-col justify-center items-center gap-4 md:gap-8">
+          <h1 className="text-2xl md:text-4xl font-bold text-white">
             About the Real-Time Pandemic Monitoring System
           </h1>
-          <h3 className="text-[1.4rem] shadow-md text-white">
+          <h3 className="text-lg md:text-xl text-white">
             Empowering Awareness and Preparedness
           </h3>
-          <p className="text-white tracking-wide text-[1.1rem] shadow-md">
+          <p className="text-sm md:text-base text-white max-w-xl">
             Discover how our platform helps track, predict, and respond to
             health crises worldwide.
           </p>
           <a
-            href={"#learnmore"}
-            className="px-4 py-2 bg-orange-600 text-white rounded-md text-lg shadow-2xl hover:bg-transparent hover:ring-[1.5px] hover:ring-orange-700 hover:duration-300 hover:transition hover:shadow-2xl"
+            href="#learnmore"
+            className="mt-4 px-4 py-2 bg-orange-600 text-white rounded-md text-sm md:text-lg shadow-lg hover:bg-transparent hover:ring-[1.5px] hover:ring-orange-700 transition-all"
           >
             Learn More
           </a>
@@ -53,85 +51,72 @@ const AboutPage = () => {
 
       {/* Project Overview and Mission */}
       <motion.div
-        className="px-8 pt-16 pb-16 grid grid-cols-2 gap-8 place-content-center place-items-center"
+        className="px-4 md:px-8 pt-16 pb-16 grid grid-cols-1 md:grid-cols-2 gap-8"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
       >
-        <div className="bg-white rounded-md shadow-xl px-4 py-4 w-fit h-fit grid place-content-center place-items-center gap-4 text-center">
-          <GoProject className="text-[2rem] font-bold text-orange-600" />
-          <h2 className="text-xl font-bold text-black">Project Overview</h2>
-          <h4 className="text-[1.1rem] text-[#222]">
-            Our system is designed to provide real-time data on pandemics
-            globally.
-          </h4>
-          <p className="tracking-wide text-[#222] leading-[1.5rem]">
-            The Real-Time Pandemic Monitoring System is an innovative web-based
-            platform designed to provide comprehensive and up-to-date
-            information on pandemics across the globe. This system offers users
-            real-time data on pandemic trends, case counts, and other critical
-            information, empowering them to stay informed and prepared for
-            emerging health threats.
+        <div className="bg-white rounded-md shadow-lg px-6 py-8 text-center flex flex-col items-center gap-4">
+          <GoProject className="text-4xl text-orange-600" />
+          <h2 className="text-lg md:text-xl font-bold">Project Overview</h2>
+          <p className="text-gray-700">
+            The Real-Time Pandemic Monitoring System is a web-based platform
+            that provides comprehensive, up-to-date information on pandemics
+            globally. This system empowers users to stay informed and prepared
+            for emerging health threats.
           </p>
         </div>
-        <div className="bg-white rounded-md shadow-xl px-4 py-4 w-fit h-fit grid place-content-center place-items-center gap-4 text-center">
-          <SiTransmission className="text-[2rem] font-bold text-orange-600" />
-          <h2 className="text-xl font-bold text-black">Mission and Vision</h2>
-          <h4 className="text-[1.1rem] text-[#222]">
-            To empower individuals, health professionals, and organizations.
-          </h4>
-          <p className="tracking-wide text-[#222] leading-[1.5rem]">
-            To empower individuals, health professionals, and organizations with
-            timely, accurate pandemic information and predictions, contributing
-            to global public health preparedness. A globally connected platform
-            where information flows freely, fostering proactive responses to
-            pandemics and helping communities, organizations, and governments
-            mitigate the impact of health crises.
+        <div className="bg-white rounded-md shadow-lg px-6 py-8 text-center flex flex-col items-center gap-4">
+          <SiTransmission className="text-4xl text-orange-600" />
+          <h2 className="text-lg md:text-xl font-bold">Mission and Vision</h2>
+          <p className="text-gray-700">
+            Our mission is to empower individuals, health professionals, and
+            organizations with timely, accurate pandemic information to support
+            global public health preparedness.
           </p>
         </div>
       </motion.div>
 
       {/* Key Features */}
-      <div className="mt-8 relative">
-        <h1 className="text-center mb-8 font-bold text-2xl text-[#222]">
-          Key features <span className="text-orange-600">of the system</span>
-          <div className="bottom_underline"></div>
+      <div className="px-4 md:px-12 mt-8">
+        <h1 className="text-center text-lg md:text-2xl font-bold text-gray-800 mb-8">
+          Key Features <span className="text-orange-600">of the system</span>
         </h1>
         <motion.div
-          className="grid grid-cols-2 gap-8 px-12 pb-16"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeUp}
         >
-          <div className="bg-white px-4 py-4 rounded-md shadow-2xl mt-8">
+          <div className="bg-white px-6 py-8 rounded-md shadow-lg">
             <Accordion />
           </div>
-          <div className="bg-white px-4 py-4 rounded-md shadow-2xl mt-8">
+          <div className="bg-white px-6 py-8 rounded-md shadow-lg">
             <AccordionPage2 />
           </div>
         </motion.div>
-        {/* Add additional feature cards with the same motion settings */}
       </div>
 
+      {/* Divider Section */}
       <motion.div
+        className="px-4 md:px-8 py-12"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
       >
-        <div className="px-8 py-12">
-          <DividerPage />
-        </div>
+        <DividerPage />
       </motion.div>
 
-      <div className="my-12 mx-8 py-12 px-8 text-[#222] bg-white rounded-md shadow-xl text-center">
+      {/* Benefit Section */}
+      <div className="px-4 md:px-8 my-8 py-8 bg-white rounded-md shadow-lg text-center text-gray-800">
         <Benefit />
       </div>
 
       {/* How the system works section */}
-      <div className="px-8 py-16">
+      <div className="px-4 md:px-8 py-12 bg-gray-50">
         <System />
       </div>
     </div>

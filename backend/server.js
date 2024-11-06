@@ -1,8 +1,15 @@
 // server.js
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
-const mysql = require("mysql2");
 const dotenv = require("dotenv");
+const db = require("./db");
+
+// contact routes
+const contactRoutes = require("./contacts");
+
+// subscription route
+const subscriptionRoutes = require("./subscribe");
 
 // Load environment variables
 dotenv.config();
@@ -14,33 +21,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Create a MySQL connection
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST || "127.0.0.1",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "pandemic_monitoring",
-  port: process.env.DB_PORT || 3306,
-});
+// Enable CORS
+app.use(cors({ origin: "http://localhost:3000" }));
 
-// Connect to the database
-connection.connect((err) => {
-  if (err) {
-    console.error("Error connecting to the MySQL database:", err);
-    return;
-  }
-  console.log("Connected to the MySQL database successfully!");
-});
+// use the contact routes
+app.use("/api", contactRoutes);
 
-// Example route to test database connection
-app.get("/users", (req, res) => {
-  connection.query("SELECT * FROM users", (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
-});
+// subscription routes
+app.use("/api", subscriptionRoutes);
 
 // Server listens on port 5000
 app.listen(5000, () => {

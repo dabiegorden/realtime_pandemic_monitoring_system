@@ -1,10 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Carousel } from "antd";
 import Image from "next/image";
-import { fetchStats } from "@/lib/fetchStats";
-
 import image3 from "@/public/assets/image-3.jpg";
 import image4 from "@/public/assets/image-4.jpg";
 import image5 from "@/public/assets/image-5.jpg";
@@ -25,42 +23,49 @@ const captionStyle = {
   color: "#fff",
   textAlign: "center",
   backgroundColor: "rgba(0, 0, 0, 0.5)",
-  padding: "1.5rem 4.5rem",
+  padding: "2rem 4.5rem",
   borderRadius: "10px",
-  width: "70%",
-  height: "60vh",
+  width: "90%",
+  maxWidth: "700px",
+  height: "auto",
+  maxHeight: "70vh",
 };
 
-// Function to format time in HH:MM AM/PM
-const formatTime = (timeString) => {
-  const date = new Date(timeString);
-  let hours = date.getUTCHours();
-  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12 || 12; // Convert to 12-hour format, and handle 0 as 12
-  return `${hours}:${minutes} ${ampm}`;
-};
+export default function Hero() {
+  const [formData, setFormData] = useState({
+    email: "",
+  });
 
-export default async function Hero() {
-  let stats;
+  const [submitted, setSubmitted] = useState(false);
 
-  try {
-    stats = await fetchStats();
-    // console.log(stats);
-  } catch (error) {
-    console.error("Error fetching covid stats:", error);
-  }
+  const handleChange = (e) => {
+    setFormData({ ...formData, email: e.target.value });
+  };
 
-  // Get the first 3 items without filtering out items with null continents
-  const carouselItems = stats?.slice(0, 3);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ email: "" });
+        setTimeout(() => {
+          setSubmitted(false);
+        }, 3000);
+      } else {
+        console.error("Error submitting form");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
-  if (!carouselItems || carouselItems.length === 0) {
-    return <div>No data available for display.</div>;
-  }
+  const images = [image3, image4, image5];
 
-  const images = [image3, image4, image5].slice(0, carouselItems.length);
-
-  // Framer motion
   const fadeUp = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -75,42 +80,34 @@ export default async function Hero() {
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }} // Adjust amount to trigger animation
+        viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
       >
-        <Carousel autoplay autoplaySpeed={4000} className="flex">
-          {carouselItems.map((item, index) => (
+        <Carousel autoplay autoplaySpeed={5000} className="flex">
+          {images.map((image, index) => (
             <section className="section" key={index}>
               <div style={contentStyle}>
                 <Image
-                  src={images[index]} // Dynamically map the image to each item
+                  src={image}
                   layout="fill"
                   objectFit="cover"
                   alt="Home images"
-                  priority
                 />
-                <div style={captionStyle}>
-                  <h1 className="text-[2.5rem] font-bold mb-[1.4rem] tracking-wide text-white">
-                    Get latest{" "}
-                    <span className="text-orange-600 text-1.5rem font-bold">
-                      news and updates{" "}
-                    </span>
+                <div style={captionStyle} className="p-8 sm:p-8 md:p-12">
+                  <h1 className="text-[1.8rem] sm:text-[2.5rem] font-bold mb-[1rem] sm:mb-[1.4rem] tracking-wide text-white">
+                    Get the latest{" "}
+                    <span className="text-orange-600">news and updates </span>
                     about pandemic
-                    <span className="text-orange-600 text-1.5rem font-bold">
-                      .
-                    </span>
+                    <span className="text-orange-600">.</span>
                   </h1>
-                  <p className="text-[1.2rem] tracking-wider mb-8">
-                    Stay update and get the real time news and update about some
-                    possible pandemic outbreak to be able to stay active and
-                    healthy and also to be able make informed decisions
-                    <span className="text-orange-600 text-1.5rem font-bold">
-                      .
-                    </span>
+                  <p className="text-[1rem] sm:text-[1.2rem] tracking-wider mb-6 sm:mb-8 leading-6 sm:leading-8">
+                    Stay updated and get real-time news on possible pandemic
+                    outbreaks to stay active, healthy, and informed.
+                    <span className="text-orange-600">.</span>
                   </p>
                   <Link
                     href={"/news"}
-                    className="px-8 py-4 rounded-md bg-orange-600 text-white text-[1.2rem] hover:text-white hover:bg-transparent hover:ring-[2px] hover:ring-orange-600"
+                    className="px-6 sm:px-8 py-3 sm:py-4 rounded-md bg-orange-600 text-white text-[1rem] sm:text-[1.2rem] hover:text-white hover:bg-transparent hover:ring-[2px] hover:ring-orange-600"
                   >
                     Learn More
                   </Link>
@@ -119,6 +116,52 @@ export default async function Hero() {
             </section>
           ))}
         </Carousel>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
+        >
+          <div className="my-16 sm:my-24 flex justify-center items-center gap-4 sm:gap-8 flex-col">
+            <div className="flex gap-4 sm:gap-8 flex-col bg-white px-6 sm:px-8 py-6 sm:py-8 rounded-md shadow-md max-w-[700px] w-full">
+              <h1 className="text-xl sm:text-2xl text-black tracking-wide text-center">
+                Stay Updated with the{" "}
+                <span className="text-orange-600">
+                  Latest Pandemic Insights!
+                </span>
+              </h1>
+              <p className="text-[0.95rem] sm:text-[1.05rem] tracking-wide leading-6 sm:leading-8 text-center">
+                Join our community to receive real-time updates, important news,
+                <br className="hidden sm:block" />
+                and insights directly to your inbox.
+              </p>
+              <form
+                onSubmit={handleSubmit}
+                className="flex justify-center items-center gap-4 400:flex 400:flex-col 400:gap-3"
+              >
+                <input
+                  className="w-full input__subscribe px-4 py-2 rounded-md border focus:ring-[2px] focus:ring-orange-500 focus:shadow-md focus:outline-none"
+                  type="email"
+                  placeholder="Email..."
+                  onChange={handleChange}
+                  value={formData.email}
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-md bg-orange-600 text-white text-[1rem]  hover:text-black hover:bg-transparent hover:ring-[2px] hover:ring-orange-600"
+                >
+                  Subscribe
+                </button>
+              </form>
+              {submitted && (
+                <p className="text-green-500 mt-4 text-center">
+                  Subscription successful!
+                </p>
+              )}
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
     </main>
   );

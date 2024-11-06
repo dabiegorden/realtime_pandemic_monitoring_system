@@ -9,6 +9,7 @@ import { IoMenuSharp } from "react-icons/io5";
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -20,14 +21,13 @@ const Navbar = () => {
   const [form, setForm] = useState("");
 
   const pathname = usePathname();
-  console.log(pathname);
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   return (
-    <nav className="bg-white flex justify-between items-center px-[4rem] py-[1.2rem] fixed w-full z-10 400:px-[2rem]">
+    <nav className="bg-white flex justify-between items-center px-[4rem] py-[1.2rem] fixed w-full z-10 400:px-[2rem] left-0 right-0 top-0">
       {Logo.map((logo) => (
         <div
           className="flex items-center text-[1.2rem] text-black"
@@ -63,12 +63,12 @@ const Navbar = () => {
         })}
       </div>
       <div className="flex items-center gap-4">
-        <Link
+        {/* <Link
           href={"/"}
           className="bg bg-orange-600 py-2 px-4 rounded-md text-white text-[1.1rem] cursor-pointer hover:bg-gradient-to-br hover:from-indigo-500 hover:to-orange-500 576:hidden"
         >
           Login
-        </Link>
+        </Link> */}
         {/* mobile screen */}
         <div className="hidden 576:block">
           <Sheet>
@@ -78,14 +78,18 @@ const Navbar = () => {
             {/* Later profile management */}
             <SheetContent side="right" className="border-none bg-white">
               <SheetHeader>
-                <SheetTitle className="text-center mb-4 text-xl capitalize">
+                {/* <SheetTitle className="text-center mb-4 text-xl capitalize">
                   Search for pandemic updates
-                </SheetTitle>
+                </SheetTitle> */}
                 <form
                   onSubmit={handleSubmit}
                   className="flex justify-between items-center gap-2 "
                 >
-                  <input type="text" placeholder="Search for pandemics..." />
+                  <input
+                    className="input__nav"
+                    type="text"
+                    placeholder="Search for pandemics..."
+                  />
                   <button
                     type="submit"
                     className="bg-orange-600 text-white py-2 px-4 rounded-md"
@@ -100,18 +104,20 @@ const Navbar = () => {
                     pathname == link.route ||
                     pathname.startsWith(`${link.route}/`);
                   return (
-                    <Link
-                      href={link.route}
-                      key={link.name}
-                      className={cn(
-                        "flex gap-2 items-center px-8 py-2 text-[1.1rem] rounded-lg justify-start ",
-                        {
-                          "bg-orange-600 text-white": isActive,
-                        }
-                      )}
-                    >
-                      {link.name}
-                    </Link>
+                    <SheetClose asChild>
+                      <Link
+                        href={link.route}
+                        key={link.name}
+                        className={cn(
+                          "flex gap-2 items-center px-8 py-2 text-[1.1rem] rounded-lg justify-start ",
+                          {
+                            "bg-orange-600 text-white": isActive,
+                          }
+                        )}
+                      >
+                        {link.name}
+                      </Link>
+                    </SheetClose>
                   );
                 })}
               </div>

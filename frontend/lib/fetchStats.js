@@ -1,4 +1,4 @@
-// Function to fetch covid stats
+export const revalidate = 3600;
 
 const url = "https://covid-193.p.rapidapi.com/statistics";
 const options = {

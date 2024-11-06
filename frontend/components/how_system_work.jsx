@@ -2,7 +2,7 @@ import React from "react";
 
 const System = () => {
   return (
-    <div className="how-system-work-section rounded-md">
+    <div className="how-system-work-section rounded-md h-fit py-8 px-8">
       <div className="flex justify-center items-center flex-col gap-8 text-center text-white pt-16">
         {/* <Image src={} alt="" width={} height={} className=""/> */}
         <h1 className="text-3xl shadow-xl mb-4">How the system works.</h1>
