@@ -16,7 +16,7 @@ const Card = async () => {
         {data.map((stat, index) => (
           <div
             key={index}
-            className="bg-white px-4 py-4 rounded-md shadow-sm flex flex-col items-center text-center"
+            className="bg-white px-4 py-4 rounded-md shadow-sm flex flex-col items-center text-center card_border_bottom hover:ring-[1.5px] hover:ring-orange-600 hover:duration-300 hover:ease-in"
           >
             <h2 className="text-lg font-bold text-gray-700">{stat.country}</h2>
             <p className="text-sm text-gray-600">Cases: {stat.cases.total}</p>
