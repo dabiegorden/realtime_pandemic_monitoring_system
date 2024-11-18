@@ -62,12 +62,12 @@ export const sidebarLinks = [
     name: "Predictions",
     route: "/admin/predictions",
   },
-  {
-    id: 5,
-    icon: <IoIosStats />,
-    name: "Statistics",
-    route: "/admin/statistics",
-  },
+  // {
+  //   id: 5,
+  //   icon: <IoIosStats />,
+  //   name: "Statistics",
+  //   route: "/admin/statistics",
+  // },
   {
     id: 6,
     icon: <CiSettings />,
