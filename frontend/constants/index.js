@@ -8,6 +8,7 @@ import { IoIosStats } from "react-icons/io";
 // Logo array
 export const Logo = [
   {
+    id: 1,
     name: "PMS",
     route: "/",
   },
@@ -16,22 +17,27 @@ export const Logo = [
 // navbar links
 export const navbarLinks = [
   {
+    id: 1,
     name: "Home",
     route: "/",
   },
   {
+    id: 2,
     name: "About",
     route: "/about",
   },
   {
+    id: 3,
     name: "News",
     route: "/news",
   },
   {
+    id: 4,
     name: "Dashboard",
     route: "/admin",
   },
   {
+    id: 5,
     name: "Contact",
     route: "/contact",
   },

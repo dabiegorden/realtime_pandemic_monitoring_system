@@ -1,29 +1,64 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-
+import { usePathname, useRouter } from "next/navigation";
 import { Logo, navbarLinks } from "@/constants";
-
 import { IoMenuSharp } from "react-icons/io5";
-
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
-  const [form, setForm] = useState("");
-
+  const [user, setUser] = useState(null);
+  const router = useRouter();
   const pathname = usePathname();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const decodeToken = (token) => {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch (error) {
+      console.error("Error decoding token", error);
+      return null;
+    }
+  };
+
+  const checkAndSetUser = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = decodeToken(token);
+      setUser(decodedToken);
+    }
+  };
+
+  useEffect(() => {
+    // Initial check on mount
+    checkAndSetUser();
+
+    // Listen for storage events to update user info across tabs/windows
+    const handleStorageChange = (e) => {
+      if (e.key === "token") {
+        checkAndSetUser();
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    router.push("/sign-in");
   };
 
   return (
@@ -34,9 +69,10 @@ const Navbar = () => {
           key={logo.name}
         >
           <Link href={logo.route} key={logo.name}>
+            {/* Uncomment and use Image if needed */}
             {/* <Image src={logo.imgUrl} width={100} height={100} alt="Logo" /> */}
           </Link>
-          <Link href={logo.route} key={logo.name} className="font-bold text-xl">
+          <Link href={logo.route} key={logo.id} className="font-bold text-xl">
             {logo.name}
           </Link>
         </div>
@@ -51,7 +87,7 @@ const Navbar = () => {
               href={link.route}
               key={link.name}
               className={cn(
-                "flex gap-4 items-center px-4 py-2  rounded-lg justify-start",
+                "flex gap-4 items-center px-4 py-2 rounded-lg justify-start",
                 {
                   "bg-orange-600 text-white": isActive,
                 }
@@ -62,27 +98,31 @@ const Navbar = () => {
           );
         })}
       </div>
+
       <div className="flex items-center gap-4">
-        {/* <Link
-          href={"/"}
-          className="bg bg-orange-600 py-2 px-4 rounded-md text-white text-[1.1rem] cursor-pointer hover:bg-gradient-to-br hover:from-indigo-500 hover:to-orange-500 576:hidden"
-        >
-          Login
-        </Link> */}
-        {/* mobile screen */}
+        <div className="flex items-center gap-4">
+          {user ? (
+            <>
+              <span>{user?.name}</span>
+              <span>{user?.email}</span>
+              <Button onClick={handleLogout}>Logout</Button>
+            </>
+          ) : (
+            <Button onClick={() => router.push("/sign-in")}>Sign In</Button>
+          )}
+        </div>
+
+        {/* Mobile screen */}
         <div className="hidden 576:block">
           <Sheet>
             <SheetTrigger asChild>
               <IoMenuSharp className="text-xl font-bold cursor-pointer" />
             </SheetTrigger>
-            {/* Later profile management */}
+
             <SheetContent side="right" className="border-none bg-white">
               <SheetHeader>
-                {/* <SheetTitle className="text-center mb-4 text-xl capitalize">
-                  Search for pandemic updates
-                </SheetTitle> */}
                 <form
-                  onSubmit={handleSubmit}
+                  onSubmit={(e) => e.preventDefault()}
                   className="flex justify-between items-center gap-2 "
                 >
                   <input
@@ -104,10 +144,9 @@ const Navbar = () => {
                     pathname == link.route ||
                     pathname.startsWith(`${link.route}/`);
                   return (
-                    <SheetClose asChild>
+                    <SheetClose asChild key={link.id}>
                       <Link
                         href={link.route}
-                        key={link.name}
                         className={cn(
                           "flex gap-2 items-center px-8 py-2 text-[1.1rem] rounded-lg justify-start ",
                           {
@@ -121,12 +160,12 @@ const Navbar = () => {
                   );
                 })}
               </div>
-              {/* <Link
-                href={"/"}
-                className="bg bg-orange-600 py-2 px-4 rounded-md text-white text-[1.1rem] cursor-pointer hover:bg-gradient-to-br hover:from-indigo-500 hover:to-orange-500 mt-8 flex items-center justify-center"
+              <Link
+                href={"/sign-in"}
+                className="bg-orange-600 py-2 px-4 rounded-md text-white text-[1.1rem] cursor-pointer hover:bg-gradient-to-br hover:from-indigo-500 hover:to-orange-500 mt-8 flex items-center justify-center"
               >
-                Login
-              </Link> */}
+                Sign In
+              </Link>
             </SheetContent>
           </Sheet>
         </div>
